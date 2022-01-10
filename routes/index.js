@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-
+const fs = require('fs')
 const path = require('path');
 const multer = require('multer');
 
 const whiteList = ["http://localhost:4200"];
+
+const directoryPath = './uploads/';
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -71,8 +73,17 @@ router.post(`/api/upload`, upload.single('file'), (req, res) => {
 router.get(`/api/file`, (req, res) => {
     const fileName = req.query.name;
     const file = `${__dirname}/../uploads/${fileName}.html`;
-    console.log(file);
     res.download(file);
+});
+
+router.get("/api/files", (req, res) => {
+    fs.readdir(directoryPath, (err, files) => {
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        }
+        console.log(files);
+        res.send(files);
+    });
 });
 
 module.exports = router;
