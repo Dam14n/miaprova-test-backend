@@ -18,7 +18,18 @@ let storage = multer.diskStorage({
     }
 });
 
+let newStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './newUploads');
+    },
+    filename: (req, file, cb) => {
+        cb(null, req.query.name + path.extname(file.originalname));
+    }
+})
+
+
 const upload = multer({ storage: storage });
+const newUpload = multer({ storage: newStorage });
 
 router.use(cors({ origin: whiteList }));
 router.use(express.json());
@@ -68,6 +79,10 @@ router.get('/api/stories', (req, res) => {
 });
 
 router.post(`/api/upload`, upload.single('file'), (req, res) => {
+    res.send(req.file);
+});
+
+router.post(`/api/newUpload`, newUpload.single('file'), (req, res) => {
     res.send(req.file);
 });
 
