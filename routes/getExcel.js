@@ -8,7 +8,7 @@ const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
 
-const whiteList = ["http://localhost:4200"];
+const whiteList = ["http://localhost:4200", "http://localhost:8080"];
 
 router.use(cors({ origin: whiteList }));
 router.use(express.json());
