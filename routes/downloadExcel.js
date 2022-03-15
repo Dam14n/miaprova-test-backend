@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-const whiteList = ["http://localhost:4200"];
+const whiteList = ["http://localhost:4200", "http://localhost:8080"];
 
 router.use(cors({ origin: whiteList }));
 router.use(express.json());

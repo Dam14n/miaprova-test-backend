@@ -4,7 +4,7 @@ const cors = require('cors');
 const fs = require('fs')
 const path = require('path');
 const multer = require('multer');
-const whiteList = ["http://localhost:4200"];
+const whiteList = ["http://localhost:4200", "http://localhost:8080"];
 
 const directoryPath = './uploads/';
 
