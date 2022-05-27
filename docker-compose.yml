@@ -1,11 +1,7 @@
-version: "3"
+version: "3.8"
 services:
   app:
-    image: nodeimage
-    container_name: miaprova-test-backend
-    build: ./
-    restart: always
+    build: 
+      context: .
     ports:
-      - "3000:3000"
-    environment:
-      - PORT=3000
+    - "3000:3000"

@@ -45,7 +45,6 @@ router.post(`/api/excelUpload`, upload.single('file'), (req, res) => {
             const url = `https://${name}.tt.omtrdc.net/m2/${name}/v2/profile/batchUpdate`;
             const form = new FormData();
             form.append('file', fs.createReadStream(`./excelUploads/${name}${ext}`));
-
             return axios.post(url, form)
         }).then((res) => {
             console.log(res);

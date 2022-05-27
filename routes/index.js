@@ -10,8 +10,6 @@ const whiteList = ["http://localhost:4200", "http://localhost:8080"];
 
 const directoryPath = './uploads/';
 
-const directoryPath = './uploads/';
-
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads');
