@@ -45,12 +45,6 @@ router.post(`/api/excelUpload`, upload.single('file'), (req, res) => {
             const url = `https://${name}.tt.omtrdc.net/m2/${name}/v2/profile/batchUpdate`;
             const form = new FormData();
             form.append('file', fs.createReadStream(`./excelUploads/${name}${ext}`));
-            // const request_config = {
-            //     headers: {
-            //         "Content-Type": "multipart/form-data"
-            //     },
-            //     data: form
-            // }
             return axios.post(url, form)
         }).then((res) => {
             console.log(res);
@@ -65,20 +59,3 @@ router.post(`/api/excelUpload`, upload.single('file'), (req, res) => {
 
 
 module.exports = router;
-
-
-
-// .then(() => {
-//     let newFile = fs.createReadStream(`./excelUploads/${name}${ext}`)
-//     const url = `${name}.tt.omtrdc.net/m2/${name}/v2/profile/batchUpdate`;
-//     newFile.on('end', function() {
-//         const form_data = new FormData();
-//         form_data.append("file", newFile, "filename.ext");
-//         const request_config = {
-//             method: "post",
-//             url: url,
-//             data: form_data
-//         };
-//         return axios(request_config);
-//     });
-// });
