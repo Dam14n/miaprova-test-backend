@@ -6,7 +6,9 @@ const path = require('path');
 const multer = require('multer');
 const Excel = require('exceljs');
 
-const whiteList = ["http://localhost:4200"];
+const whiteList = ["http://localhost:4200", "http://localhost:8080"];
+
+const directoryPath = './uploads/';
 
 const directoryPath = './uploads/';
 
