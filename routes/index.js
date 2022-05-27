@@ -4,6 +4,7 @@ const cors = require('cors');
 const fs = require('fs')
 const path = require('path');
 const multer = require('multer');
+const Excel = require('exceljs');
 
 const whiteList = ["http://localhost:4200"];
 
@@ -18,7 +19,18 @@ let storage = multer.diskStorage({
     }
 });
 
+let newStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './excelUploads');
+    },
+    filename: (req, file, cb) => {
+        cb(null, req.query.name + path.extname(file.originalname));
+    }
+})
+
+
 const upload = multer({ storage: storage });
+const newUpload = multer({ storage: newStorage });
 
 router.use(cors({ origin: whiteList }));
 router.use(express.json());
@@ -69,6 +81,27 @@ router.get('/api/stories', (req, res) => {
 
 router.post(`/api/upload`, upload.single('file'), (req, res) => {
     res.send(req.file);
+});
+
+router.post(`/api/excelUpload`, newUpload.single('file'), (req, res) => {
+    res.send(req.file);
+
+    const fileName = req.query.name + path.extname(req.file.originalname);
+    let pointIndex = fileName.lastIndexOf(".");
+    let name = fileName.substring(0, pointIndex);
+    let ext = fileName.substring(pointIndex);
+    const workbook = new Excel.Workbook();
+
+    workbook.csv.readFile(`./excelUploads/${name}${ext}`)
+        .then(() => {
+            let worksheet = workbook.getWorksheet(1);
+            let row = worksheet.getRow(1);
+            let cell = row.getCell(1);
+            cell.value = "batch=" + cell.value;
+
+            return workbook.csv.writeFile(`./excelUploads/${name}${ext}`);
+        });
+
 });
 
 router.get(`/api/file`, (req, res) => {
